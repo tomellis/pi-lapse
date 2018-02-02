@@ -66,7 +66,7 @@ EOF
 ```
 mkdir -p ~/pi-lapse/images
 touch ~/pi-lapse/images/test
-AWS_PROFILE=raspberrypi aws s3 --region eu-west-1 sync ~/pi-lapse/images/ s3://picamera-images/
+AWS_PROFILE=raspberrypi aws s3 --region eu-west-1 sync ~/pi-lapse/images/ s3://pi-lapse/
 ```
 
 ## Run scripts
