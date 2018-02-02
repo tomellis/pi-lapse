@@ -1,30 +1,31 @@
-# README
+# Pi-lapse README
 
-A simple bunch of scripts to:
+A simple bunch of scripts to take timelapse images on a pi.
+
+Flow:
 
 1. Take a picture from a raspberry pi camera
 2. Upload to S3
 3. Transform
 
-
 ## Future Enhancement
 
 - Move from AWS CLI through to AWS Python SDK
 - Create IAM user in cloudformation
+- Install python pre-reqs
 - Rekognition on image
   - Store metadata back in S3
 - CloudWatch event/Trigger lambda on S3 PutObject
+- S3 Single page app to display metadata
 
 ## In AWS
 
-  - create pi user
-    - no permission
-  - download api creds
-  - run cft to create permissions
-  AWS_PROFILE=tomellis aws cloudformation create-stack --stack-name pi-iam --region eu-west-1 --template-body file:////home/trellis/src/pi-lapse/cloudformation/iam.yaml --capabilities CAPABILITY_IAM
-  - create s3 bucket
-  - test access
-  AWS_PROFILE=raspberrypi aws s3 --region eu-west-1 sync /home/trellis/pi-images/ s3://picamera-images/
+  - Create pi IAM user
+  - Download API creds
+  - Run Cloudformation on your system to create S3 bucket and IAM policies for access from your pi:
+```
+AWS_PROFILE=my-profile aws cloudformation create-stack --stack-name pi-lapse --region eu-west-1 --template-body file:////path-to/pi-lapse/cloudformation/create-bucket-and-policy.yml --capabilities CAPABILITY_IAM
+```
 
 ## On your PI
 
@@ -68,3 +69,6 @@ touch ~/pi-lapse/images/test
 AWS_PROFILE=raspberrypi aws s3 --region eu-west-1 sync ~/pi-lapse/images/ s3://picamera-images/
 ```
 
+## Run scripts
+
+python pi-lapse/camera.py
