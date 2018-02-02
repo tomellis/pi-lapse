@@ -72,5 +72,6 @@ AWS_PROFILE=raspberrypi aws s3 --region eu-west-1 sync ~/pi-lapse/images/ s3://p
 ## Run scripts
 
 ```
+git clone https://github.com/tomellis/pi-lapse.git
 python pi-lapse/camera.py
 ```
