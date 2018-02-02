@@ -1,0 +1,63 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: IAM template for S3 bucket and access for pi-lapse
+
+Parameters:
+  BucketNameParameter:
+    Type: String
+    Default: "pi-lapse"
+    Description: "A name for your s3 bucket"
+  IamUsername:
+    Type: String
+    Default: "raspberry-pi"
+    Description: "The username for your rasberry pi iam user"
+
+Resources:
+  PiLapseBucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName:
+        Ref: BucketNameParameter
+      Tags:
+        -
+          Key: "createdby"
+          Value: "pi-lapse"
+  PiCameraS3List:
+    Properties:
+      PolicyDocument:
+        Statement:
+          Action:
+            - s3:ListBucket
+            - s3:ListAllMyBuckets
+          Effect: Allow
+          Resource:
+            - 'arn:aws:s3:::*'
+      Users:
+        - Ref: IamUsername
+      PolicyName: PiCameraS3List
+    Type: AWS::IAM::Policy
+  PiCameraS3Permissions:
+    Properties:
+      PolicyDocument:
+        Statement:
+          Action:
+            - s3:PutObject
+            - s3:GetObject
+            - s3:DeleteObject
+            - s3:PutObjectAcl
+            - s3:ListBucket
+          Effect: Allow
+          Resource:
+            - !Sub 'arn:aws:s3:::${BucketNameParameter}'
+            - !Sub 'arn:aws:s3:::${BucketNameParameter}/*'
+      Users:
+        - Ref: IamUsername
+      PolicyName: PiCameraS3RWRestrict
+    Type: AWS::IAM::Policy
+
+Outputs:
+  BucketARN:
+    Value: !GetAtt
+      - PiLapseBucket
+      - Arn
+    Description: Bucket ARN
