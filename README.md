@@ -70,5 +70,6 @@ AWS_PROFILE=raspberrypi aws s3 --region eu-west-1 sync ~/pi-lapse/images/ s3://p
 ```
 
 ## Run scripts
-
+```
 python pi-lapse/camera.py
+```
