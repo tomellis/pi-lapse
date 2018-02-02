@@ -45,7 +45,7 @@ EOF
 
 sudo sed /boot/config.txt -i -e "s/^startx/#startx/"
 
-sudo apt-get install python-dev -y
+sudo apt-get install git awscli python-dev -y
 
 mkdir -p ~/.aws
 
@@ -70,6 +70,7 @@ AWS_PROFILE=raspberrypi aws s3 --region eu-west-1 sync ~/pi-lapse/images/ s3://p
 ```
 
 ## Run scripts
+
 ```
 python pi-lapse/camera.py
 ```
